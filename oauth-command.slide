@@ -13,9 +13,9 @@ The API
 
 .link http://go.pkgdoc.org/code.google.com/p/goauth2/oauth
 
-The example:
+The oauth command code:
 
-.link http://github.com/ajstarks/oauth-command/oauthcmd.go
+.link https://github.com/ajstarks/oauth-command/blob/master/oauthcmd/oauthcmd.go
 
 Tested with Google, Meetup, and Microsoft services
 
