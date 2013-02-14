@@ -34,6 +34,7 @@ Client *id* and *secret* are the key bits of information, The procedure varies w
 * Building the example
 
 	$ go get code.google.com/p/goauth2/oauth
+	$ go get github.com/ajstarks/oauth-command/oauthcmd
 	$ go install github.com/ajstarks/oauth-command/oauthcmd
 	$ oauthcmd
 	Usage of oauthcmd:
