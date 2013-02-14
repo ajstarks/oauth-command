@@ -15,7 +15,7 @@ The API
 
 The example:
 
-.link http://code.google.com/p/goauth2/source/browse/oauth/example/oauthreq.go
+.link http://github.com/ajstarks/oauth-command/oauthreq.go
 
 Tested with Google, Meetup, and Microsoft services
 
@@ -34,7 +34,8 @@ Client *id* and *secret* are the key bits of information, The procedure varies w
 * Building the example
 
 	$ go get code.google.com/p/goauth2/oauth
-	$ cd $GOPATH/src/code.google.com/p/goauth2/oauth/example
+	$ go get github.com/ajstarks/oauth-command/oauthreq
+	$ cd $GOPATH/src/github.com/ajstarks/oauth-command/oauthreq
 	$ go build -o oauthreq .
 	$ ./oauthreq
 	Usage of ./oauthreq:
