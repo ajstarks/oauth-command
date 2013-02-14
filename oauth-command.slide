@@ -1,0 +1,133 @@
+The OAuth2 Command Line
+
+Anthony Starks
+Go enthusiast
+ajstarks@gmail.com
+@ajstarks
+
+* The Go OAuth2 library
+
+.link http://code.google.com/p/goauth2
+
+The API
+
+.link http://go.pkgdoc.org/code.google.com/p/goauth2/oauth
+
+The example:
+
+.link http://code.google.com/p/goauth2/source/browse/oauth/example/oauthreq.go
+
+Tested with Google, Meetup, and Microsoft services
+
+* The OAuth2 Protocol
+
+.image images/oauth-proto.svg
+
+* Application Registration
+
+Client *id* and *secret* are the key bits of information, The procedure varies with each service provider
+
+.link https://code.google.com/apis/console/
+
+.image images/api-dashboard.png
+
+* Building the example
+
+	$ go get code.google.com/p/goauth2/oauth
+	$ cd $GOPATH/src/code.google.com/p/goauth2/oauth/example
+	$ go build -o oauthreq .
+	$ ./oauthreq
+	Usage of ./oauthreq:
+	-ap="": Authorization parameter
+	-api="https://www.googleapis.com/auth/userinfo.profile": API URL
+	-auth="https://accounts.google.com/o/oauth2/auth": Authorization URL
+	-cache=false: Read token from cache
+	-cachefile="request.token": Token cache file
+	-code="": Authorization Code
+	-id="": Client ID
+	-redirect="http://localhost/": Redirect URL
+	-req="https://www.googleapis.com/oauth2/v1/userinfo": API request
+	-secret="": Client Secret
+	-token="https://accounts.google.com/o/oauth2/token": Token URL
+
+	You must either specify both -id and -secret, or -cache to use saved tokens
+
+	To obtain client id and secret, see the "OAuth 2 Credentials" section under
+	the "API Access" tab on this page: https://code.google.com/apis/console/
+
+	After you receive a valid code, specify it using -code; then subsequent calls only need -cache
+
+
+* Running the example
+
+Start the request process...
+
+	./oauthreq \
+		-id=$gid -secret=$gsec \
+		-api=https://www.googleapis.com/auth/drive \
+		-auth=https://accounts.google.com/o/oauth2/auth \
+		-req=https://www.googleapis.com/drive/v2/files \
+		-redirect=http://localhost/
+
+Gives this request for your browser:
+
+	https://accounts.google.com/o/oauth2/auth?response_type=code&redirect_uri=http%3A%2F%2Flocalhost%2F&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive&client_id=1023691247172.apps.googleusercontent.com&access_type=&state=
+
+Use the code, use the cached token
+
+	./oauthreq ... -code=.....
+	./oauthreq -cache -req=https://www.googleapis.com/drive/v2/files
+
+* Working with the data
+
+	./oauthreq -req=https://www.googleapis.com/drive/v2/files -cache | \
+	  awk '$0 ~ /fileSize/ {print}'
+	   "fileSize": "269507",
+	   "fileSize": "43740",
+	   "fileSize": "38283",
+	   "fileSize": "47448",
+	   "fileSize": "13658",
+	   "fileSize": "1243",
+	   "fileSize": "171",
+	   "fileSize": "9791",
+	   "fileSize": "10181",
+	   "fileSize": "196",
+	   "fileSize": "97288",
+	   "fileSize": "8290425",
+	   "fileSize": "12820",
+	   "fileSize": "113326",
+
+	./oauthreq -req=https://www.googleapis.com/drive/v2/files -cache | \
+	  awk -F\" '$0 ~ /fileSize/ {total+=$4} END {print total}'
+	8948077
+
+* Other Services
+
+Meetup
+
+	./oauthreq \
+	        -id=$id \
+	        -secret=$secret  \
+	        -auth=https://secure.meetup.com/oauth2/authorize \
+	        -token=https://secure.meetup.com/oauth2/access  \
+	        -redirect=http://codepic.nfshost.com/api.html/  \
+	        -req=https://api.meetup.com/cities  \
+	        -api=basic \
+	        -ap='?access_token='
+
+	./oauthreq ... -code=$code  # cache the token in token.request
+	./oauthreq -cache -req=https://api.meetup.com/cities -ap='?access_token='
+
+* References
+
+OAuth 2.0:
+
+.link http://oauth.net/2/
+
+Google OAuth2 Playground:
+
+.link https://developers.google.com/oauthplayground/
+
+Meetup API Console
+
+.link http://www.meetup.com/meetup_api/console/
