@@ -15,7 +15,7 @@ The API
 
 The example:
 
-.link http://github.com/ajstarks/oauth-command/oauthreq.go
+.link http://github.com/ajstarks/oauth-command/oauthcmd.go
 
 Tested with Google, Meetup, and Microsoft services
 
@@ -34,11 +34,9 @@ Client *id* and *secret* are the key bits of information, The procedure varies w
 * Building the example
 
 	$ go get code.google.com/p/goauth2/oauth
-	$ go get github.com/ajstarks/oauth-command/oauthreq
-	$ cd $GOPATH/src/github.com/ajstarks/oauth-command/oauthreq
-	$ go build -o oauthreq .
-	$ ./oauthreq
-	Usage of ./oauthreq:
+	$ go install github.com/ajstarks/oauth-command/oauthcmd
+	$ oauthcmd
+	Usage of oauthcmd:
 	-ap="": Authorization parameter
 	-api="https://www.googleapis.com/auth/userinfo.profile": API URL
 	-auth="https://accounts.google.com/o/oauth2/auth": Authorization URL
@@ -63,7 +61,7 @@ Client *id* and *secret* are the key bits of information, The procedure varies w
 
 Start the request process...
 
-	./oauthreq \
+	oauthcmd \
 		-id=$gid -secret=$gsec \
 		-api=https://www.googleapis.com/auth/drive \
 		-auth=https://accounts.google.com/o/oauth2/auth \
@@ -76,12 +74,12 @@ Gives this request for your browser:
 
 Use the code, use the cached token
 
-	./oauthreq ... -code=.....
-	./oauthreq -cache -req=https://www.googleapis.com/drive/v2/files
+	oauthcmd ... -code=.....
+	oauthcmd -cache -req=https://www.googleapis.com/drive/v2/files
 
 * Working with the data
 
-	./oauthreq -req=https://www.googleapis.com/drive/v2/files -cache | \
+	oauthcmd -req=https://www.googleapis.com/drive/v2/files -cache | \
 	  awk '$0 ~ /fileSize/ {print}'
 	   "fileSize": "269507",
 	   "fileSize": "43740",
@@ -98,7 +96,7 @@ Use the code, use the cached token
 	   "fileSize": "12820",
 	   "fileSize": "113326",
 
-	./oauthreq -req=https://www.googleapis.com/drive/v2/files -cache | \
+	oauthcmd -req=https://www.googleapis.com/drive/v2/files -cache | \
 	  awk -F\" '$0 ~ /fileSize/ {total+=$4} END {print total}'
 	8948077
 
@@ -106,7 +104,7 @@ Use the code, use the cached token
 
 Meetup
 
-	./oauthreq \
+	oauthcmd \
 	        -id=$id \
 	        -secret=$secret  \
 	        -auth=https://secure.meetup.com/oauth2/authorize \
@@ -116,8 +114,8 @@ Meetup
 	        -api=basic \
 	        -ap='?access_token='
 
-	./oauthreq ... -code=$code  # cache the token in token.request
-	./oauthreq -cache -req=https://api.meetup.com/cities -ap='?access_token='
+	oauthcmd ... -code=$code  # cache the token in token.request
+	oauthcmd -cache -req=https://api.meetup.com/cities -ap='?access_token='
 
 * References
 
