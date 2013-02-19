@@ -62,7 +62,7 @@ Client *id* and *secret* are the key bits of information, The procedure varies w
 
 Start the request process...
 
-	oauthcmd \
+	$ oauthcmd \
 		-id=$gid -secret=$gsec \
 		-api=https://www.googleapis.com/auth/drive \
 		-auth=https://accounts.google.com/o/oauth2/auth \
@@ -75,12 +75,12 @@ Gives this request for your browser:
 
 Use the code, use the cached token
 
-	oauthcmd ... -code=.....
-	oauthcmd -cache -req=https://www.googleapis.com/drive/v2/files
+	$ oauthcmd ... -code=.....
+	$ oauthcmd -cache -req=https://www.googleapis.com/drive/v2/files
 
 * Working with the data
 
-	oauthcmd -req=https://www.googleapis.com/drive/v2/files -cache | \
+	$ oauthcmd -req=https://www.googleapis.com/drive/v2/files -cache | \
 	  awk '$0 ~ /fileSize/ {print}'
 	   "fileSize": "269507",
 	   "fileSize": "43740",
@@ -97,7 +97,7 @@ Use the code, use the cached token
 	   "fileSize": "12820",
 	   "fileSize": "113326",
 
-	oauthcmd -req=https://www.googleapis.com/drive/v2/files -cache | \
+	$ oauthcmd -req=https://www.googleapis.com/drive/v2/files -cache | \
 	  awk -F\" '$0 ~ /fileSize/ {total+=$4} END {print total}'
 	8948077
 
@@ -105,7 +105,7 @@ Use the code, use the cached token
 
 Meetup
 
-	oauthcmd \
+	$ oauthcmd \
 	        -id=$id \
 	        -secret=$secret  \
 	        -auth=https://secure.meetup.com/oauth2/authorize \
@@ -115,8 +115,8 @@ Meetup
 	        -api=basic \
 	        -ap='?access_token='
 
-	oauthcmd ... -code=$code  # cache the token in token.request
-	oauthcmd -cache -req=https://api.meetup.com/cities -ap='?access_token='
+	$ oauthcmd ... -code=$code  # cache the token in token.request
+	$ oauthcmd -cache -req=https://api.meetup.com/cities -ap='?access_token='
 
 * References
 
